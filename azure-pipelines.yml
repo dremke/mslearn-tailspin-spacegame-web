@@ -53,10 +53,17 @@ steps:
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
+    
+- task: dependency-check-build-task@6
+  inputs:
+    projectName: 'mslearn-tailspin-spacegame-web'
+    scanPath: '**/*.cs'
+    format: 'HTML'
 - task: WhiteSource@21
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
     projectName: 'mslearn-tailspin-spacegame-web'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
